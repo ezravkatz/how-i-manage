@@ -5,7 +5,9 @@ const UserController = require('../controllers/userController');
 
 //crud
 
-router.get('/', UserController.view)
+router.get('/', UserController.view);
+router.post('/', UserController.find);
+
 
 // router
 router.get('', (req, res) => {

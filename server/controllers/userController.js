@@ -34,3 +34,30 @@ connection.query('SELECT * FROM user', (err, rows) => {
 });
 
 });
+
+//User search 
+
+exports.find = (req, res) => {
+  
+    pool.getConnection((err, connection) => {
+      if (err) throw err; //not connected
+      console.log("Connected as ID" + connection.threadId);
+
+      let searchTerm = req.body.Search;
+    });
+    
+    //search configuration
+    connection.query('SELECT * FROM user WHERE first_name LIKE ? OR last_name LIKE ?', ['%' + searchTerm + '%', '%' + searchTerm + '%'], (err, rows) => {
+      //when finished, release
+      connection.release();
+    
+      if(!err) {
+        redirect.render('main', { rows });
+      } else {
+        console.log(err);
+      }
+    
+      console.log('Data from user table: \n', rows);
+    });
+    
+}
