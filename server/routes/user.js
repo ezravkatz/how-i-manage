@@ -1,12 +1,13 @@
 const express = require('express');
-import { Router } from 'express';
-const router = Router();
+const router = express.Router();
 const UserController = require('../controllers/userController');
 
 //crud
 
 router.get('/', UserController.view);
 router.post('/', UserController.find);
+router.get('/add-user', UserController.newUser);
+
 
 
 // router

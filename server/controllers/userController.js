@@ -60,4 +60,10 @@ exports.find = (req, res) => {
       console.log('Data from user table: \n', rows);
     });
     
-}
+};
+
+//add user
+
+exports.addUser = (req, res) => {
+res.render('add-user');
+};
