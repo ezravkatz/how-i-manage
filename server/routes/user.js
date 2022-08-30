@@ -7,6 +7,8 @@ const UserController = require('../controllers/userController');
 router.get('/', UserController.view);
 router.post('/', UserController.find);
 router.get('/add-user', UserController.newUser);
+router.post('/add-user', UserController.add);
+
 
 
 

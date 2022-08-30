@@ -62,8 +62,35 @@ exports.find = (req, res) => {
     
 };
 
+exports.form = (req, res) => {
+res.render('add-user');
+};
+
 //add user
 
-exports.addUser = (req, res) => {
-res.render('add-user');
+exports.add = (req, res) => {
+const { first_name, last_name, email, phone, comments } = req.body;
+exports.find = (req, res) => {
+  
+  pool.getConnection((err, connection) => {
+    if (err) throw err; //not connected
+    console.log("Connected as ID" + connection.threadId);
+
+    let searchTerm = req.body.Search;
+  });
+  
+  //user connection
+  connection.query('INSERT INTO user first_name = ?, last_name = ?, email = ?, phone = ?, comments = ?',[first_name, last_name, email, phone, comments], (err, rows) => {
+    //when finished, release
+    connection.release();
+  
+    if(!err) {
+      redirect.render('add-user', { alert: 'User successfully added!' });
+    } else {
+      console.log(err);
+    }
+  
+    console.log('Data from user table: \n', rows);
+  });
+};
 };
