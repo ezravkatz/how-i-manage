@@ -94,3 +94,29 @@ exports.find = (req, res) => {
   });
 };
 };
+
+//edit user
+
+exports.edit = (req, res) => {
+
+    pool.getConnection((err, connection) => {
+      if (err) throw err; //not connected
+      console.log("Connected as ID" + connection.threadId);
+    });
+    
+    //user connection
+    connection.query('SELECT * FROM user WHERE id = ?',[req.params.id], (err, rows) => {
+      //when finished, release
+      connection.release();
+    
+      if(!err) {
+        redirect.render('main', { rows });
+      } else {
+        console.log(err);
+      }
+    
+      console.log('Data from user table: \n', rows);
+    });
+    
+    });
+}
