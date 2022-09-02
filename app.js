@@ -1,12 +1,14 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const express_handlebars = require('express-handlebars')
-const mysql = require('mysql')
+const express_handlebars = require('express-handlebars');
+const ConnectionConfig = require('mysql/lib/ConnectionConfig');
+const mysql2 = require('mysql2')
+//const pool = require('./server/controllers/userController');
 
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8080;
 
 //parsing middleware
 app.use(bodyParser.urlencoded({extended: false }));
@@ -18,20 +20,24 @@ app.use(bodyParser.json());
 app.use(express.static('public)'));
 
 //connection 
-const pool = mysql.createPool({
+const connectionOne = mysql2.createConnection({
   connectionLimit : 100,
+  port: 3001,
   host : process.env.DB_HOST,
   user : process.env.DB_USER,
   password : process.env.DB_PASS,
   database : process.env.DB_NAME
 });
  
-pool.getConnection((err, connection) => {
+connectionOne.connect((err, connection) => {
   if (err) throw err; //not connected
-  console.log('Connected as ID' + connection.threadId)
+  console.log('Connected as ID' + connectionOne.threadId)
 });
 
-const routes = require ('./server/routes/user');
-app.use('/', routes);
+// const routes = require ('./server/routes/user');
+// app.use('/', routes);
 
 app.listen(port, () => console.log(`listening on port ${port}`));
+
+module.exports = connectionOne;
+module.exports = app;

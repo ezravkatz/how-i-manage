@@ -1,21 +1,51 @@
 const { redirect } = require("express/lib/response");
-const mysql = require("mysql");
+const mysql2 = require("mysql2");
+//const connectionCon = require("../../app");
+const app = require('express')();
+//const app = require("../../app");
+//const router = require("../routes/user");
+
+//connection 
+const connectionOne = mysql2.createConnection({
+  connectionLimit : 100,
+  port: 3001,
+  host : process.env.DB_HOST,
+  user : process.env.DB_USER,
+  password : process.env.DB_PASS,
+  database : process.env.DB_NAME
+});
+
+const UserController = app.get('/', (req, res) => {
+  res.send(req.params)
+});
+
 
 //connection
-const pool = mysql.createPool({
+const pool = mysql2.createPool({
   connectionLimit: 100,
+  port: 3001,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
 });
 
+
+//define rows 
+
+const rows = 
+pool.getConnection(function(err, res) {
+  connection.query ("SELECT * FROM user", function (err, res) {
+    if (err) throw (err);
+    console.log(results);
+    });
+
 //View users
 exports.view = (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) throw err; //not connected
     console.log("Connected as ID" + connection.threadId);
-  });
+ 
 
   //user connection
   connection.query("SELECT * FROM user", (err, rows) => {
@@ -23,14 +53,16 @@ exports.view = (req, res) => {
     connection.release();
 
     if (!err) {
-      redirect.render("main", { rows });
+      redirect.render = ( ("main", { rows }));
     } else {
       console.log(err);
     }
+  });
 
     console.log("Data from user table: \n", rows);
   });
-};
+}
+
 
 //User search
 
@@ -201,4 +233,7 @@ exports.delete = (req, res) => {
 
       console.log("Data from user table: \n", rows);
     });
-  }
+  }});
+
+  module.exports = pool;
+  module.exports = UserController;

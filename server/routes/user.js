@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require('../controllers/userController');
+const app = require('express')();
+//const UserController = require('../controllers/userController');
+
+const UserController = app.get('/', (req, res) => {
+  res.send(req.params)
+});
 
 //crud
 
