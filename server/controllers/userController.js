@@ -8,7 +8,7 @@ const app = require('express')();
 //connection 
 const connectionOne = mysql2.createConnection({
   connectionLimit : 100,
-  port: 3001,
+  port: 8080,
   host : process.env.DB_HOST,
   user : process.env.DB_USER,
   password : process.env.DB_PASS,
@@ -23,7 +23,7 @@ const UserController = app.get('/', (req, res) => {
 //connection
 const pool = mysql2.createPool({
   connectionLimit: 100,
-  port: 3001,
+  port: 8080,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
